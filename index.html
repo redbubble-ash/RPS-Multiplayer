@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <!-- Firebase Reference -->
-  <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase.js"></script>
 
 
 </head>
@@ -18,16 +18,17 @@
 <body>
 
     <header>Rock Paper Scissors</header>
+    <p1></p1>
     <div class="record">
         <table>
             <tr>
-                <td>You wins:   </td>
+                <td>You wins: </td>
             </tr>
             <tr>
-                <td>You looses:        </td>
+                <td>You looses: </td>
             </tr>
             <tr>
-                <td>You ties:       </td>
+                <td>You ties: </td>
             </tr>
         </table>
         <br>
@@ -87,13 +88,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm">
-                            <button>Rock</button>
+                            <button class="option" data-option="rock">Rock</button>
                         </div>
                         <div class="col-sm">
-                            <button>Paper</button>
+                            <button class="option" data-option="paper">Paper</button>
                         </div>
                         <div class="col-sm">
-                            <button>Scissors</button>
+                            <button class="option" data-option="scissors">Scissors</button>
 
                         </div>
                     </div>
@@ -106,13 +107,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm">
-                            <button>Rock</button>
+                            <button class="option" data-option="rock">Rock</button>
                         </div>
                         <div class="col-sm">
-                            <button>Paper</button>
+                            <button class="option" data-option="paper">Paper</button>
                         </div>
                         <div class="col-sm">
-                            <button>Scissors</button>
+                            <button class="option" data-option="scissors">Scissors</button>
 
                         </div>
                     </div>
@@ -123,51 +124,59 @@
     </div>
     <br>
     <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm">
-                             
-                            </div>
-                            <div class="col-sm">
-                                <button>Submit</button>
-                            </div>
-                            <div class="col-sm">
-                            
-    
-                            </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+
+                        </div>
+                        <div class="col-sm">
+                            <button class="submit">Submit</button>
+                        </div>
+                        <div class="col-sm">
+
+
                         </div>
                     </div>
-                </div>
-                <div class="col-sm">
-    
-                </div>
-                <div class="col-sm">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm">
-                         
-                            </div>
-                            <div class="col-sm">
-                                <button>Submit</button>
-                            </div>
-                            <div class="col-sm">
-                             
-    
-                            </div>
-                        </div>
-                    </div>
-    
                 </div>
             </div>
+            <div class="col-sm">
+
+            </div>
+            <div class="col-sm">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+
+                        </div>
+                        <div class="col-sm">
+                            <button class="submit">Submit</button>
+                        </div>
+                        <div class="col-sm">
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    
+    </div>
 
-    <section>chat</section>
 
-   <!-- Script -->
-  <script src="assets/js/RPS.js"></script>
+    <section class="chat">
+        
+
+    </section>
+
+    <div>
+        <input id="leaveMessage" type="text" placeholder="Say something nice" />
+        <button id="message">Send</button>
+    </div>
+
+    <!-- Script -->
+    <script src="assets/js/RPS.js"></script>
 
 
 
