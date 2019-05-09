@@ -1,3 +1,20 @@
+var firebaseConfig = {
+    apiKey: "AIzaSyAFXZ20ElXP90YlsRYcZ9OcDD10p8Gdi1A",
+    authDomain: "rps-multiplayer-game-e1e01.firebaseapp.com",
+    databaseURL: "https://rps-multiplayer-game-e1e01.firebaseio.com",
+    projectId: "rps-multiplayer-game-e1e01",
+    storageBucket: "rps-multiplayer-game-e1e01.appspot.com",
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Create a variable to reference the database.
+var database = firebase.database();
+
+
+
+
+
 //regular two players game
 
 var player1Click = "Scissors";
@@ -24,8 +41,8 @@ function gameResult(player1Click, player2Click) {
         player1 = "lost";
         player2 = "win";
     }
-  console.log("player1: "+player1);
-  console.log("player2: "+player2);
+    console.log("player1: " + player1);
+    console.log("player2: " + player2);
 }
 
-gameResult(player1Click,player2Click);
+gameResult(player1Click, player2Click);

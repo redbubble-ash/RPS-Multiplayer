@@ -1,0 +1,42 @@
+*{
+    box-sizing: border-box;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+html{
+  
+    width: 100%;
+    height: 100%;
+
+}
+
+body{
+
+    background-image: url("../images/memphis-colorful.png");
+    margin: auto;
+    padding: 20px;
+    background-repeat: repeat;
+    background-size: 100%;
+}
+
+header{
+    font-size: 30px;
+    font-weight: bold;
+    color: blue;
+
+
+}
+
+
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+table{
+    float: right;
+    margin-right: 100px;
+
+}
