@@ -52,13 +52,15 @@ table{
     margin: 0 0 5px 0;
   }
   
-  input, button {
+  input, #message {
     width: 50%;
     font: inherit;
     background: #fff;
     border: none;
     margin-top: 10px;
     padding: 5px 10px;
+    border-style: solid;
+    color: lightseagreen;
   }
   
   button:hover {
