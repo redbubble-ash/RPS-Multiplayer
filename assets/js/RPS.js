@@ -1,6 +1,13 @@
 
 var chatMessage = "";
-var addMessage = ""
+var addMessage = "";
+var player1Click = "";
+var player2Click = "";
+var player1 = "";
+var player2 = "";
+var player1Name = "";
+var player2Name = "";
+var playerNumber = 0; 
 
 
 
@@ -40,6 +47,14 @@ connectedRef.on("value", function (snap) {
     }
 });
 
+// When loaded/connected, get the number of the connection 
+// the first reviewer/player should be the first connection
+connectionsRef.once("value", function (snap) {
+
+    playerNumber = snap.numChildren();
+    console.log(playerNumber);
+    
+});
 // When first loaded or when the connections list changes...
 connectionsRef.on("value", function (snap) {
 
@@ -51,17 +66,6 @@ connectionsRef.on("value", function (snap) {
     // }
 });
 
-
-
-
-//regular two players game
-
-var player1Click = "Scissors";
-var player2Click = "Rock";
-var player1 = "";
-var player2 = "";
-var player1Name = "";
-var player2Name = "";
 
 
 
@@ -120,12 +124,23 @@ database.ref("/newMessage").orderByChild("dateAdded").limitToLast(1).on("child_a
     console.log("Errors handled: " + errorObject.code);
 });
 
+// when player1 join the game
+
+
+
+
+
+
+
+
+
 // creating player 1
 $("#player1").on("click", function () {
     event.preventDefault();
     player1Name = $("#player1Input").val().trim();
-    database.ref("/player1").push({
+    database.ref("/player1").set({
         name: player1Name,
+        playerClick:""
     })
     $("#player1Name").append(": " + player1Name);
 
@@ -135,8 +150,9 @@ $("#player1").on("click", function () {
 $("#player2").on("click", function () {
     event.preventDefault();
     player2Name = $("#player2Input").val().trim();
-    database.ref("/player2").push({
+    database.ref("/player2").set({
         name: player2Name,
+        playerClick:""
     })
     $("#player2Name").append(": " + player2Name);
 
@@ -146,8 +162,9 @@ $("#player2").on("click", function () {
 $("#rock1").on("click", function () {
 
     player1Click = "Rock";
-    database.ref("/player1").push({
-        player1Click: player1Click,
+    database.ref("/player1").set({
+        name: player1Name,
+        playerClick: player1Click,
     })
     $("#paper1").hide();
     $("#scissors1").hide();
@@ -157,8 +174,9 @@ $("#rock1").on("click", function () {
 $("#paper1").on("click", function () {
 
     player1Click = "Paper";
-    database.ref("/player1").push({
-        player1Click: player1Click,
+    database.ref("/player1").set({
+        name: player1Name,
+        playerClick: player1Click,
     })
     $("#rock1").hide();
     $("#scissors1").hide();
@@ -168,8 +186,9 @@ $("#paper1").on("click", function () {
 $("#scissors1").on("click", function () {
 
     player1Click = "Scissors";
-    database.ref("/player1").push({
-        player1Click: player1Click,
+    database.ref("/player1").set({
+        name: player1Name,
+        playerClick: player1Click,
     })
     $("#paper1").hide();
     $("#rock1").hide();
@@ -179,9 +198,10 @@ $("#scissors1").on("click", function () {
 // when player2 plays
 $("#rock2").on("click", function () {
 
-    player1Click = "Rock";
-    database.ref("/player2").push({
-        player1Click: player1Click,
+    player2Click = "Rock";
+    database.ref("/player2").set({
+        name: player2Name,
+        playerClick: player2Click,
     })
     $("#paper2").hide();
     $("#scissors2").hide();
@@ -190,9 +210,10 @@ $("#rock2").on("click", function () {
 
 $("#paper2").on("click", function () {
 
-    player1Click = "Paper";
-    database.ref("/player2").push({
-        player1Click: player1Click,
+    player2Click = "Paper";
+    database.ref("/player2").set({
+        name: player2Name,
+        playerClick: player2Click,
     })
     $("#rock2").hide();
     $("#scissors2").hide();
@@ -201,9 +222,10 @@ $("#paper2").on("click", function () {
 
 $("#scissors2").on("click", function () {
 
-    player1Click = "Scissors";
-    database.ref("/player2").push({
-        player1Click: player1Click,
+    player2Click = "Scissors";
+    database.ref("/player2").set({
+        name: player2Name,
+        playerClick: player2Click,
     })
     $("#paper2").hide();
     $("#rock2").hide();
