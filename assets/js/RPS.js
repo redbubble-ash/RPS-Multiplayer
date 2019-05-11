@@ -62,6 +62,7 @@ connectionsRef.once("value", function (snap) {
         $("p2").html("You are player number 1");
         $("#player2").hide();
         $("#option2").hide();
+        $("#player2Input").hide();
 
 
     }
@@ -69,6 +70,7 @@ connectionsRef.once("value", function (snap) {
         $("p2").html("You are player number 2");
         $("#player1").hide();
         $("#option1").hide();
+        $("#player1Input").hide();
     }
 
 });
