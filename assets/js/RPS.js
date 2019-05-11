@@ -46,7 +46,7 @@ connectedRef.on("value", function (snap) {
         var con = connectionsRef.push(true);
         // Remove user from the connection list when they disconnect.
         con.onDisconnect().remove();
-       
+
     }
 });
 
@@ -56,11 +56,11 @@ connectionsRef.once("value", function (snap) {
 
     playerNumber = snap.numChildren();
     // console.log(playerNumber);
-    if (playerNumber  === 1){
+    if (playerNumber === 1) {
         $("p2").html("You are player number 1");
-    
+
     }
-    else if (playerNumber === 2){
+    else if (playerNumber === 2) {
         $("p2").html("You are player number 2");
     }
 
@@ -116,7 +116,7 @@ $("#player1").on("click", function () {
     database.ref("/player1").onDisconnect().remove();//remove player2 on firebase when disconnected
     $("#player1Name").append(": " + player1Name);
     $("#player1Input").val("");//empty input box
-      
+
 })
 
 // initialize player 2, when the player2 enter the name
@@ -130,7 +130,7 @@ $("#player2").on("click", function () {
     database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
     $("#player2Name").append(": " + player2Name);
     $("#player2Input").val("");//empty input box
-    
+
 
 })
 
@@ -138,20 +138,22 @@ $("#player2").on("click", function () {
 $("#rock1").on("click", function () {
 
     player1Click = "Rock";
+    $("#image1").attr("src","assets/images/rock.png");
     database.ref("/player1").set({
         name: player1Name,
         playerClick: player1Click,
     })
     $("#paper1").hide();
     $("#scissors1").hide();
-   
+
 
 })
 
 $("#paper1").on("click", function () {
 
     player1Click = "Paper";
-     database.ref("/player1").set({
+    $("#image1").attr("src","assets/images/paper.png");
+    database.ref("/player1").set({
         name: player1Name,
         playerClick: player1Click,
     })
@@ -164,13 +166,14 @@ $("#paper1").on("click", function () {
 $("#scissors1").on("click", function () {
 
     player1Click = "Scissors";
-   database.ref("/player1").set({
+    $("#image1").attr("src","assets/images/scissors.png");
+    database.ref("/player1").set({
         name: player1Name,
         playerClick: player1Click,
     })
     $("#paper1").hide();
     $("#rock1").hide();
-    
+
 
 })
 
@@ -178,39 +181,42 @@ $("#scissors1").on("click", function () {
 $("#rock2").on("click", function () {
 
     player2Click = "Rock";
-  database.ref("/player2").set({
+    $("#image2").attr("src","assets/images/rock.png");
+    database.ref("/player2").set({
         name: player2Name,
         playerClick: player2Click,
     })
     $("#paper2").hide();
     $("#scissors2").hide();
- 
+
 
 })
 
 $("#paper2").on("click", function () {
 
     player2Click = "Paper";
+    $("#image2").attr("src","assets/images/paper.png");
     database.ref("/player2").set({
         name: player2Name,
         playerClick: player2Click,
     })
     $("#rock2").hide();
     $("#scissors2").hide();
-   
+
 
 })
 
 $("#scissors2").on("click", function () {
 
     player2Click = "Scissors";
-   database.ref("/player2").set({
+    $("#image2").attr("src","assets/images/scissors.png");
+    database.ref("/player2").set({
         name: player2Name,
         playerClick: player2Click,
     })
     $("#paper2").hide();
     $("#rock2").hide();
-  
+
 
 })
 
