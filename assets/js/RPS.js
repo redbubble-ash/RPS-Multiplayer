@@ -60,6 +60,9 @@ var player1Click = "Scissors";
 var player2Click = "Rock";
 var player1 = "";
 var player2 = "";
+var player1Name = "";
+var player2Name = "";
+
 
 
 // regular RPS rules
@@ -86,20 +89,12 @@ function gameResult(player1Click, player2Click) {
 
 gameResult(player1Click, player2Click);
 
-// var messageRef = database.ref("/message");
-
-// messageRef.on("value", function (snap) {
-
-//     $(".chat").prepend(snap);
-
-// });
-
 
 // live chatting function
 // creating child and push message info to newMessage on the server
 $("#message").on("click", function () {
     event.preventDefault();
-    console.log("check");
+    // console.log("check");
     chatMessage = $("#leaveMessage").val().trim();
 
     database.ref("/newMessage").push({
@@ -124,3 +119,44 @@ database.ref("/newMessage").orderByChild("dateAdded").limitToLast(1).on("child_a
 }, function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
+
+// creating player 1
+$("#player1").on("click", function () {
+    event.preventDefault();
+    player1Name = $("#player1Input").val().trim();
+    database.ref("/player1").push({
+        name:player1Name,
+    })
+    $("#player1Name").append(": "+player1Name);
+
+})
+
+// creating player 2
+$("#player2").on("click", function () {
+    event.preventDefault();
+    player2Name = $("#player2Input").val().trim();
+    database.ref("/player2").push({
+        name:player2Name,
+    })
+    $("#player2Name").append(": "+player2Name);
+
+})
+
+// when player1 plays
+$("#rock1").on("click",function(){
+
+    player1Click = "Rock";
+    
+})
+
+$("#paper1").on("click",function(){
+
+    player1Click = "Paper";
+    
+})
+
+$("#scissors1").on("click",function(){
+
+    player1Click = "Scissors";
+    
+})
