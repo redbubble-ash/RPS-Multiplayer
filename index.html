@@ -23,17 +23,6 @@
     <p2></p2>
     <div class="mainPage">
         <div class="record">
-            <table>
-                <tr>
-                    <td>You wins: </td>
-                </tr>
-                <tr>
-                    <td>You looses: </td>
-                </tr>
-                <tr>
-                    <td>You ties: </td>
-                </tr>
-            </table>
             <br>
             <br>
         </div>
@@ -56,16 +45,17 @@
             <div class="row">
                 <div class="col-sm">
                     <form action="">
-                        Name: <input id="player1Input" type="text" name="name">
+                        Name: <input id="player1Input" type="text" name="name" placeholder="enter your name">
                         <button id="player1">Submit</button>
                     </form>
                 </div>
-                <div class="col-sm">
-
+                <div id="result" class="col-sm">
+                    <!-- add a gif image for waiting-->
+                waiting ...... 
                 </div>
                 <div class="col-sm">
                     <form action="">
-                        Name: <input id="player2Input" type="text" name="name">
+                        Name: <input id="player2Input" type="text" name="name" placeholder="enter your name">
                         <button id="player2">Submit</button>
                     </form>
 
@@ -91,7 +81,7 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="container">
-                        <div class="row">
+                        <div id="option1" class="row">
                             <div class="col-sm">
                                 <button id="rock1" class="option" data-option="rock">Rock</button>
                             </div>
@@ -110,7 +100,7 @@
                 </div>
                 <div class="col-sm">
                     <div class="container">
-                        <div class="row">
+                        <div id="option2" class="row">
                             <div class="col-sm">
                                 <button id="rock2" class="option" data-option="rock">Rock</button>
                             </div>

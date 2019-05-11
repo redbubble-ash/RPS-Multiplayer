@@ -10,6 +10,8 @@ var player2Name = "";
 var playerNumber = 0;
 var player1Result = "";
 var player2Result = "";
+var result1 = "";
+var result2 = "";
 
 
 
@@ -58,10 +60,15 @@ connectionsRef.once("value", function (snap) {
     // console.log(playerNumber);
     if (playerNumber === 1) {
         $("p2").html("You are player number 1");
+        $("#player2").hide();
+        $("#option2").hide();
+
 
     }
     else if (playerNumber === 2) {
         $("p2").html("You are player number 2");
+        $("#player1").hide();
+        $("#option1").hide();
     }
 
 });
@@ -100,6 +107,7 @@ function gameResult(player1Click, player2Click) {
     }
     console.log("player1: " + player1Result);
     console.log("player2: " + player2Result);
+    $("#result").html( "player1: " + player1Result +"<br>"+"player2: " + player2Result);
 }
 
 
@@ -113,7 +121,7 @@ $("#player1").on("click", function () {
         name: player1Name,
         playerClick: ""
     })
-    database.ref("/player1").onDisconnect().remove();//remove player2 on firebase when disconnected
+    database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
     $("#player1Name").append(": " + player1Name);
     $("#player1Input").val("");//empty input box
 
@@ -138,42 +146,41 @@ $("#player2").on("click", function () {
 $("#rock1").on("click", function () {
 
     player1Click = "Rock";
-    $("#image1").attr("src","assets/images/rock.png");
+    $("#image1").attr("src", "assets/images/rock.png", alt = "rock");
     database.ref("/player1").set({
         name: player1Name,
         playerClick: player1Click,
     })
     $("#paper1").hide();
     $("#scissors1").hide();
-
+    database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
 
 })
 
 $("#paper1").on("click", function () {
 
     player1Click = "Paper";
-    $("#image1").attr("src","assets/images/paper.png");
+    $("#image1").attr("src", "assets/images/paper.png", alt = "paper");
     database.ref("/player1").set({
         name: player1Name,
         playerClick: player1Click,
     })
     $("#rock1").hide();
     $("#scissors1").hide();
-
-
+    database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
 })
 
 $("#scissors1").on("click", function () {
 
     player1Click = "Scissors";
-    $("#image1").attr("src","assets/images/scissors.png");
+    $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
     database.ref("/player1").set({
         name: player1Name,
         playerClick: player1Click,
     })
     $("#paper1").hide();
     $("#rock1").hide();
-
+    database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
 
 })
 
@@ -181,42 +188,42 @@ $("#scissors1").on("click", function () {
 $("#rock2").on("click", function () {
 
     player2Click = "Rock";
-    $("#image2").attr("src","assets/images/rock.png");
+    $("#image2").attr("src", "assets/images/rock.png", alt = "rock");
     database.ref("/player2").set({
         name: player2Name,
         playerClick: player2Click,
     })
     $("#paper2").hide();
     $("#scissors2").hide();
-
+    database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
 
 })
 
 $("#paper2").on("click", function () {
 
     player2Click = "Paper";
-    $("#image2").attr("src","assets/images/paper.png");
+    $("#image2").attr("src", "assets/images/paper.png", alt = "paper");
     database.ref("/player2").set({
         name: player2Name,
         playerClick: player2Click,
     })
     $("#rock2").hide();
     $("#scissors2").hide();
-
+    database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
 
 })
 
 $("#scissors2").on("click", function () {
 
     player2Click = "Scissors";
-    $("#image2").attr("src","assets/images/scissors.png");
+    $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
     database.ref("/player2").set({
         name: player2Name,
         playerClick: player2Click,
     })
     $("#paper2").hide();
     $("#rock2").hide();
-
+    database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
 
 })
 
@@ -224,7 +231,9 @@ $("#scissors2").on("click", function () {
 database.ref("/player1").on("value", function (snap) {
 
     player1 = snap.val().playerClick;
-    gameResult(player1, player2);
+    if (player1, player2) {
+        gameResult(player1, player2);
+    }
 })
 
 // get playclick value for player2 and assign to varibale player2 (client side)
@@ -232,7 +241,9 @@ database.ref("/player1").on("value", function (snap) {
 database.ref("/player2").on("value", function (snap) {
 
     player2 = snap.val().playerClick;
+    if (player1,player2){
     gameResult(player1, player2);
+    }
 })
 
 
