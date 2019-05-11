@@ -125,9 +125,9 @@ $("#player1").on("click", function () {
     event.preventDefault();
     player1Name = $("#player1Input").val().trim();
     database.ref("/player1").push({
-        name:player1Name,
+        name: player1Name,
     })
-    $("#player1Name").append(": "+player1Name);
+    $("#player1Name").append(": " + player1Name);
 
 })
 
@@ -136,27 +136,42 @@ $("#player2").on("click", function () {
     event.preventDefault();
     player2Name = $("#player2Input").val().trim();
     database.ref("/player2").push({
-        name:player2Name,
+        name: player2Name,
     })
-    $("#player2Name").append(": "+player2Name);
+    $("#player2Name").append(": " + player2Name);
 
 })
 
 // when player1 plays
-$("#rock1").on("click",function(){
+$("#rock1").on("click", function () {
 
     player1Click = "Rock";
-    
+    database.ref("/player1").push({
+        player1Click: player1Click,
+    })
+    $("#paper1").hide();
+    $("#scissors1").hide();
+
 })
 
-$("#paper1").on("click",function(){
+$("#paper1").on("click", function () {
 
     player1Click = "Paper";
-    
+    database.ref("/player1").push({
+        player1Click: player1Click,
+    })
+    $("#rock1").hide();
+    $("#scissors1").hide();
+
 })
 
-$("#scissors1").on("click",function(){
+$("#scissors1").on("click", function () {
 
     player1Click = "Scissors";
-    
+    database.ref("/player1").push({
+        player1Click: player1Click,
+    })
+    $("#paper1").hide();
+    $("#rock1").hide();
+
 })
