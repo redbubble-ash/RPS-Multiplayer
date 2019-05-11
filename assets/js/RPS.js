@@ -7,7 +7,9 @@ var player1 = "";
 var player2 = "";
 var player1Name = "";
 var player2Name = "";
-var playerNumber = 0; 
+var playerNumber = 0;
+var player1Result = "";
+var player2Result = "";
 
 
 
@@ -44,16 +46,24 @@ connectedRef.on("value", function (snap) {
         var con = connectionsRef.push(true);
         // Remove user from the connection list when they disconnect.
         con.onDisconnect().remove();
+       
     }
 });
 
 // When loaded/connected, get the number of the connection 
-// the first reviewer/player should be the first connection
+// the first reviewer/player should be the first connection, player#1: snap.numChildren() === 1
 connectionsRef.once("value", function (snap) {
 
     playerNumber = snap.numChildren();
-    console.log(playerNumber);
+    // console.log(playerNumber);
+    if (playerNumber  === 1){
+        $("p2").html("You are player number 1");
     
+    }
+    else if (playerNumber === 2){
+        $("p2").html("You are player number 2");
+    }
+
 });
 // When first loaded or when the connections list changes...
 connectionsRef.on("value", function (snap) {
@@ -61,9 +71,10 @@ connectionsRef.on("value", function (snap) {
     // Display the viewer count in the html.
     // The number of online users is the number of children in the connections list.
     $("p1").html("There are " + snap.numChildren() + " players");
-    // if(snap.numChildren()>2){
-    //     alert("Game has reached to player limit, sorry you can't join this time.")
-    // }
+    if (snap.numChildren() > 2) {
+        alert("Game has reached to player limit, sorry you can't join this time.")
+        $(".mainPage").hide();
+    }
 });
 
 
@@ -74,27 +85,154 @@ function gameResult(player1Click, player2Click) {
     if ((player1Click === "Rock" && player2Click === "Scissors")
         || (player1Click === "Paper" && player2Click === "Rock")
         || (player1Click === "Scissors" && player2Click === "Paper")) {
-        player1 = "win";
-        player2 = "lost";
+        player1Result = "win";
+        player2Result = "lost";
     }
     else if ((player1Click === "Rock" && player2Click === "Rock")
         || (player1Click === "Paper" && player2Click === "Paper")
         || (player1Click === "Scissors" && player2Click === "Scissors")) {
-        player1 = "tie";
-        player2 = "tie";
+        player1Result = "tie";
+        player2Result = "tie";
     }
     else {
-        player1 = "lost";
-        player2 = "win";
+        player1Result = "lost";
+        player2Result = "win";
     }
-    console.log("player1: " + player1);
-    console.log("player2: " + player2);
+    console.log("player1: " + player1Result);
+    console.log("player2: " + player2Result);
 }
 
-gameResult(player1Click, player2Click);
+
+
+
+//  initialize player 1, when the player1 enter the name
+$("#player1").on("click", function () {
+    event.preventDefault();
+    player1Name = $("#player1Input").val().trim();
+    database.ref("/player1").set({
+        name: player1Name,
+        playerClick: ""
+    })
+    database.ref("/player1").onDisconnect().remove();//remove player2 on firebase when disconnected
+    $("#player1Name").append(": " + player1Name);
+    $("#player1Input").val("");//empty input box
+      
+})
+
+// initialize player 2, when the player2 enter the name
+$("#player2").on("click", function () {
+    event.preventDefault();
+    player2Name = $("#player2Input").val().trim();
+    database.ref("/player2").set({
+        name: player2Name,
+        playerClick: ""
+    })
+    database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
+    $("#player2Name").append(": " + player2Name);
+    $("#player2Input").val("");//empty input box
+    
+
+})
+
+// when player1 plays
+$("#rock1").on("click", function () {
+
+    player1Click = "Rock";
+    database.ref("/player1").set({
+        name: player1Name,
+        playerClick: player1Click,
+    })
+    $("#paper1").hide();
+    $("#scissors1").hide();
+   
+
+})
+
+$("#paper1").on("click", function () {
+
+    player1Click = "Paper";
+     database.ref("/player1").set({
+        name: player1Name,
+        playerClick: player1Click,
+    })
+    $("#rock1").hide();
+    $("#scissors1").hide();
+
+
+})
+
+$("#scissors1").on("click", function () {
+
+    player1Click = "Scissors";
+   database.ref("/player1").set({
+        name: player1Name,
+        playerClick: player1Click,
+    })
+    $("#paper1").hide();
+    $("#rock1").hide();
+    
+
+})
+
+// when player2 plays
+$("#rock2").on("click", function () {
+
+    player2Click = "Rock";
+  database.ref("/player2").set({
+        name: player2Name,
+        playerClick: player2Click,
+    })
+    $("#paper2").hide();
+    $("#scissors2").hide();
+ 
+
+})
+
+$("#paper2").on("click", function () {
+
+    player2Click = "Paper";
+    database.ref("/player2").set({
+        name: player2Name,
+        playerClick: player2Click,
+    })
+    $("#rock2").hide();
+    $("#scissors2").hide();
+   
+
+})
+
+$("#scissors2").on("click", function () {
+
+    player2Click = "Scissors";
+   database.ref("/player2").set({
+        name: player2Name,
+        playerClick: player2Click,
+    })
+    $("#paper2").hide();
+    $("#rock2").hide();
+  
+
+})
+
+// get playclick value for player1 and assign to varibale player1 (client side)
+database.ref("/player1").on("value", function (snap) {
+
+    player1 = snap.val().playerClick;
+    gameResult(player1, player2);
+})
+
+// get playclick value for player2 and assign to varibale player2 (client side)
+
+database.ref("/player2").on("value", function (snap) {
+
+    player2 = snap.val().playerClick;
+    gameResult(player1, player2);
+})
+
 
 
 // live chatting function
+
 // creating child and push message info to newMessage on the server
 $("#message").on("click", function () {
     event.preventDefault();
@@ -124,7 +262,6 @@ database.ref("/newMessage").orderByChild("dateAdded").limitToLast(1).on("child_a
     console.log("Errors handled: " + errorObject.code);
 });
 
-// when player1 join the game
 
 
 
@@ -134,100 +271,3 @@ database.ref("/newMessage").orderByChild("dateAdded").limitToLast(1).on("child_a
 
 
 
-// creating player 1
-$("#player1").on("click", function () {
-    event.preventDefault();
-    player1Name = $("#player1Input").val().trim();
-    database.ref("/player1").set({
-        name: player1Name,
-        playerClick:""
-    })
-    $("#player1Name").append(": " + player1Name);
-
-})
-
-// creating player 2
-$("#player2").on("click", function () {
-    event.preventDefault();
-    player2Name = $("#player2Input").val().trim();
-    database.ref("/player2").set({
-        name: player2Name,
-        playerClick:""
-    })
-    $("#player2Name").append(": " + player2Name);
-
-})
-
-// when player1 plays
-$("#rock1").on("click", function () {
-
-    player1Click = "Rock";
-    database.ref("/player1").set({
-        name: player1Name,
-        playerClick: player1Click,
-    })
-    $("#paper1").hide();
-    $("#scissors1").hide();
-
-})
-
-$("#paper1").on("click", function () {
-
-    player1Click = "Paper";
-    database.ref("/player1").set({
-        name: player1Name,
-        playerClick: player1Click,
-    })
-    $("#rock1").hide();
-    $("#scissors1").hide();
-
-})
-
-$("#scissors1").on("click", function () {
-
-    player1Click = "Scissors";
-    database.ref("/player1").set({
-        name: player1Name,
-        playerClick: player1Click,
-    })
-    $("#paper1").hide();
-    $("#rock1").hide();
-
-})
-
-// when player2 plays
-$("#rock2").on("click", function () {
-
-    player2Click = "Rock";
-    database.ref("/player2").set({
-        name: player2Name,
-        playerClick: player2Click,
-    })
-    $("#paper2").hide();
-    $("#scissors2").hide();
-
-})
-
-$("#paper2").on("click", function () {
-
-    player2Click = "Paper";
-    database.ref("/player2").set({
-        name: player2Name,
-        playerClick: player2Click,
-    })
-    $("#rock2").hide();
-    $("#scissors2").hide();
-
-})
-
-$("#scissors2").on("click", function () {
-
-    player2Click = "Scissors";
-    database.ref("/player2").set({
-        name: player2Name,
-        playerClick: player2Click,
-    })
-    $("#paper2").hide();
-    $("#rock2").hide();
-
-})
