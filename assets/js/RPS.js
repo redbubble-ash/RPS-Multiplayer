@@ -175,3 +175,37 @@ $("#scissors1").on("click", function () {
     $("#rock1").hide();
 
 })
+
+// when player2 plays
+$("#rock2").on("click", function () {
+
+    player1Click = "Rock";
+    database.ref("/player2").push({
+        player1Click: player1Click,
+    })
+    $("#paper2").hide();
+    $("#scissors2").hide();
+
+})
+
+$("#paper2").on("click", function () {
+
+    player1Click = "Paper";
+    database.ref("/player2").push({
+        player1Click: player1Click,
+    })
+    $("#rock2").hide();
+    $("#scissors2").hide();
+
+})
+
+$("#scissors2").on("click", function () {
+
+    player1Click = "Scissors";
+    database.ref("/player2").push({
+        player1Click: player1Click,
+    })
+    $("#paper2").hide();
+    $("#rock2").hide();
+
+})
