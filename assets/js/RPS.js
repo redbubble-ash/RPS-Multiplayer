@@ -108,6 +108,7 @@ function gameResult(player1Click, player2Click) {
     console.log("player1: " + player1Result);
     console.log("player2: " + player2Result);
     $("#result").html( "player1: " + player1Result +"<br>"+"player2: " + player2Result);
+ 
 }
 
 
@@ -233,6 +234,8 @@ database.ref("/player1").on("value", function (snap) {
     player1 = snap.val().playerClick;
     if (player1, player2) {
         gameResult(player1, player2);
+        $("#image1").attr("src", "assets/images/"+player1+".png", alt = player1);
+        $("#image2").attr("src", "assets/images/"+player2+".png", alt = player2);
     }
 })
 
@@ -243,6 +246,8 @@ database.ref("/player2").on("value", function (snap) {
     player2 = snap.val().playerClick;
     if (player1,player2){
     gameResult(player1, player2);
+    $("#image1").attr("src", "assets/images/"+player1+".png", alt = player1);
+    $("#image2").attr("src", "assets/images/"+player2+".png", alt = player2);
     }
 })
 
