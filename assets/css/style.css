@@ -28,6 +28,11 @@ header{
 
 }
 
+p1, p2{
+  font-weight: bold;
+  color:red;
+}
+
 #player1{
   width: 70px;
   height: 30px;
