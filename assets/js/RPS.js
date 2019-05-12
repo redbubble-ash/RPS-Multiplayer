@@ -12,6 +12,8 @@ var player1Result = "";
 var player2Result = "";
 var result1 = "";
 var result2 = "";
+var player1Img = "";
+var player2Img = "";
 
 
 
@@ -235,8 +237,10 @@ database.ref("/player1").on("value", function (snap) {
     player1 = snap.val().playerClick;
     if (player1, player2) {
         gameResult(player1, player2);
-        $("#image1").attr("src", "assets/images/"+player1.toLowerCase()+".png", alt = player1);
-        $("#image2").attr("src", "assets/images/"+player2.toLowerCase()+".png", alt = player2);
+        player1Img = player1.toLowerCase();
+        player2Img = player2.toLowerCase();
+        $("#image1").attr("src", "assets/images/"+player1Img+".png", alt = player1);
+        $("#image2").attr("src", "assets/images/"+player2Img+".png", alt = player2);
     }
 })
 
@@ -247,8 +251,10 @@ database.ref("/player2").on("value", function (snap) {
     player2 = snap.val().playerClick;
     if (player1,player2){
     gameResult(player1, player2);
-    $("#image1").attr("src", "assets/images/"+player1.toLowerCase()+".png", alt = player1);
-    $("#image2").attr("src", "assets/images/"+player2.toLowerCase()+".png", alt = player2);
+    player1Img = player1.toLowerCase();
+    player2Img = player2.toLowerCase();
+    $("#image1").attr("src", "assets/images/"+player1Img+".png", alt = player1);
+    $("#image2").attr("src", "assets/images/"+player2Img+".png", alt = player2);
     }
 })
 
