@@ -1,10 +1,10 @@
 # RPS-Multiplayer
 
-This Rock Paper Scissors online game is designed for two players to play at the same time.
+This Rock Paper Scissors game is an online game for two players, which was created by using Firebase. 
 
 **Instruction:**
 
-  * Players need to enter their names first and click the submit button before starting the game. 
+  * Two players can play at the same time. Players need to enter their names first and click the submit button before starting the game. 
 
   * Both players pick either `rock`, `paper` or `scissors`. After the players make their selection, the game will tell them whether a tie occurred or if one player defeated the other.
 
