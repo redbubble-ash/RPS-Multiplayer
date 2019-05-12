@@ -66,6 +66,7 @@ connectionsRef.once("value", function (snap) {
     if (playerNumber === 1) {
         $("p2").html("You are player number 1");
         $("#player2").hide();
+        $("#option1").hide();
         $("#option2").hide();
         $("#p2").hide();
         $("#playAgain").hide();
@@ -76,6 +77,7 @@ connectionsRef.once("value", function (snap) {
         $("p2").html("You are player number 2");
         $("#player1").hide();
         $("#option1").hide();
+        $("#option2").hide();
         $("#p1").hide();
         $("#playAgain").hide();
     }
@@ -160,7 +162,7 @@ $("#playAgain").on("click", function () {
 })
 
 
- //checking if player clicked play again button, only reset game when both players click the play again button
+//checking if player clicked play again button, only reset game when both players click the play again button
 database.ref("/player1/checkPlayAgain").on("value", function (snap) {
     checkPlayAgain1 = snap.val();
     if (checkPlayAgain1 && checkPlayAgain2) {
@@ -179,7 +181,7 @@ database.ref("/player1/checkPlayAgain").on("value", function (snap) {
     }
 })
 
- //checking if player clicked play again button, only reset game when both players click the play again button
+//checking if player clicked play again button, only reset game when both players click the play again button
 database.ref("/player2/checkPlayAgain").on("value", function (snap) {
     checkPlayAgain2 = snap.val();
     if (checkPlayAgain1 && checkPlayAgain2) {
@@ -216,7 +218,11 @@ $("#player1").on("click", function () {
     $("#player1Name").append(": " + player1Name);
     $("#player1Input").val("");//empty input box
     myName = player1Name;
-    console.log("my name is " + myName);
+    $("#option1").show();
+    $("#rock1").show();
+    $("#paper1").show();
+    $("#scissors1").show();
+    // console.log("my name is " + myName);
 
 
 })
@@ -234,7 +240,11 @@ $("#player2").on("click", function () {
     $("#player2Name").append(": " + player2Name);
     $("#player2Input").val("");//empty input box
     myName = player2Name;
-    console.log("my name is " + myName);
+    $("#option2").show();
+    $("#rock2").show();
+    $("#paper2").show();
+    $("#scissors2").show();
+    // console.log("my name is " + myName);
 
 
 })
