@@ -59,7 +59,7 @@ connectedRef.on("value", function (snap) {
 });
 
 // When loaded/connected, get the number of the connection 
-// the first reviewer/player should be the first connection, player#1: snap.numChildren() === 1
+// the first reviewer/player should be the first connection, player#1: snap.numChildren() === 1, ** Using once() gets the value from the database once, while using on() continues to listen for changes to the data until you call off().
 connectionsRef.once("value", function (snap) {
 
     playerNumber = snap.numChildren();
@@ -132,7 +132,7 @@ connectionsRef.on("value", function (snap) {
 
 
 
-// regular RPS rules
+// regular RPS game rules
 function gameResult(player1Click, player2Click) {
     if ((player1Click === "Rock" && player2Click === "Scissors")
         || (player1Click === "Paper" && player2Click === "Rock")
@@ -160,7 +160,7 @@ function gameResult(player1Click, player2Click) {
 $("#playAgain").on("click", function () {
     resetGame();
 
-    //store checkPlayAgain object to firebase when playagin button is clicked
+    //store checkPlayAgain object to firebase when playAgain button is clicked
     if (playerNumber === 1) {
         database.ref("/player1").update({
             checkPlayAgain: true,
@@ -179,7 +179,7 @@ $("#playAgain").on("click", function () {
 })
 
 
-//checking if player clicked play again button, only reset game when both players click the play again button
+//checking if player clicked play again button, only reset game when both players click the playAgain button
 database.ref("/player1/checkPlayAgain").on("value", function (snap) {
     checkPlayAgain1 = snap.val();
     if (checkPlayAgain1 && checkPlayAgain2) {
@@ -198,7 +198,7 @@ database.ref("/player1/checkPlayAgain").on("value", function (snap) {
     }
 })
 
-//checking if player clicked play again button, only reset game when both players click the play again button
+//checking if player clicked playagain button, only reset game when both players click the play again button
 database.ref("/player2/checkPlayAgain").on("value", function (snap) {
     checkPlayAgain2 = snap.val();
     if (checkPlayAgain1 && checkPlayAgain2) {
@@ -222,7 +222,7 @@ database.ref("/player2/checkPlayAgain").on("value", function (snap) {
 
 
 
-//  initialize player 1, when the player1 enter the name
+//  initialize player 1, when the player1 entered the name and ckicked the submit button
 $("#player1").on("click", function () {
     event.preventDefault();
     player1Name = $("#player1Input").val().trim();
@@ -244,7 +244,7 @@ $("#player1").on("click", function () {
 
 })
 
-// initialize player 2, when the player2 enter the name
+// initialize player 2, when the player2 entered the name and ckicked the submit button
 $("#player2").on("click", function () {
     event.preventDefault();
     player2Name = $("#player2Input").val().trim();
@@ -358,6 +358,7 @@ database.ref("/player1").on("value", function (snap) {
     }// handle the case if the snap val() is null
     else {
         player1 = snap.val().playerClick;
+        // when both playersClick have value on the firebase
         if (player1 && player2) {
             gameResult(player1, player2);
             player1Img = player1.toLowerCase();
@@ -368,7 +369,7 @@ database.ref("/player1").on("value", function (snap) {
                 checkPlayAgain1: ""
             })
         }
-        else{
+        else {
             return;
         }
     }
@@ -382,6 +383,7 @@ database.ref("/player2").on("value", function (snap) {
     }//handle the case if the snap val() is null
     else {
         player2 = snap.val().playerClick;
+        // when both playersClick have value on the firebase
         if (player1 && player2) {
             gameResult(player1, player2);
             player1Img = player1.toLowerCase();
@@ -392,7 +394,7 @@ database.ref("/player2").on("value", function (snap) {
                 checkPlayAgain2: ""
             })
         }
-        else{
+        else {
             return;
         }
     }
@@ -405,9 +407,9 @@ database.ref("/player2").on("value", function (snap) {
 // creating child and push message info to newMessage on the server
 $("#message").on("click", function () {
     event.preventDefault();
-    // console.log("check");
-    chatMessage = $("#leaveMessage").val().trim();
 
+    chatMessage = $("#leaveMessage").val().trim();
+    //creating a new node "newMessage" to store new messages
     database.ref("/newMessage").push({
         message: chatMessage,
     });
