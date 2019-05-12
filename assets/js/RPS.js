@@ -15,6 +15,9 @@ var result2 = "";
 var player1Img = "";
 var player2Img = "";
 var myName = "";
+var checkPlayAgain1 = "";
+var checkPlayAgain2 = "";
+
 
 
 
@@ -140,9 +143,62 @@ function gameResult(player1Click, player2Click) {
 
 $("#playAgain").on("click", function () {
     resetGame();
-    console.log("check");
+
+    //store checkPlayAgain object to firebase when playagin button is clicked
+    if (playerNumber === 1) {
+        database.ref("/player1").update({
+            checkPlayAgain: true,
+        })
+    }
+    else if (playerNumber === 2) {
+        database.ref("/player2").update({
+            checkPlayAgain: true,
+        })
+
+    }
 
 })
+
+
+ //checking if player clicked play again button, only reset game when both players click the play again button
+database.ref("/player1/checkPlayAgain").on("value", function (snap) {
+    checkPlayAgain1 = snap.val();
+    if (checkPlayAgain1 && checkPlayAgain2) {
+        if (playerNumber === 1) {
+            $("#option1").show();
+            $("#rock1").show();
+            $("#paper1").show();
+            $("#scissors1").show();
+        }
+        else if (playerNumber === 2) {
+            $("#option2").show();
+            $("#rock2").show();
+            $("#paper2").show();
+            $("#scissors2").show();
+        }
+    }
+})
+
+ //checking if player clicked play again button, only reset game when both players click the play again button
+database.ref("/player2/checkPlayAgain").on("value", function (snap) {
+    checkPlayAgain2 = snap.val();
+    if (checkPlayAgain1 && checkPlayAgain2) {
+        if (playerNumber === 1) {
+            $("#option1").show();
+            $("#rock1").show();
+            $("#paper1").show();
+            $("#scissors1").show();
+        }
+        else if (playerNumber === 2) {
+            $("#option2").show();
+            $("#rock2").show();
+            $("#paper2").show();
+            $("#scissors2").show();
+        }
+    }
+})
+
+
 
 
 
@@ -153,7 +209,8 @@ $("#player1").on("click", function () {
     player1Name = $("#player1Input").val().trim();
     database.ref("/player1").set({
         name: player1Name,
-        playerClick: ""
+        playerClick: "",
+        checkPlayAgain: "",
     })
     database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
     $("#player1Name").append(": " + player1Name);
@@ -170,7 +227,8 @@ $("#player2").on("click", function () {
     player2Name = $("#player2Input").val().trim();
     database.ref("/player2").set({
         name: player2Name,
-        playerClick: ""
+        playerClick: "",
+        checkPlayAgain: "",
     })
     database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
     $("#player2Name").append(": " + player2Name);
@@ -279,6 +337,9 @@ database.ref("/player1").on("value", function (snap) {
             player2Img = player2.toLowerCase();
             $("#image1").attr("src", "assets/images/" + player1Img + ".png", alt = player1);
             $("#image2").attr("src", "assets/images/" + player2Img + ".png", alt = player2);
+            database.ref("/player1").update({
+                checkPlayAgain1: ""
+            })
         }
     }
 })
@@ -297,6 +358,9 @@ database.ref("/player2").on("value", function (snap) {
             player2Img = player2.toLowerCase();
             $("#image1").attr("src", "assets/images/" + player1Img + ".png", alt = player1);
             $("#image2").attr("src", "assets/images/" + player2Img + ".png", alt = player2);
+            database.ref("/player2").update({
+                checkPlayAgain2: ""
+            })
         }
     }
 })
@@ -342,15 +406,20 @@ function resetGame() {
         $("p2").html("You are player number 1");
         $("#player2").hide();
         $("#option2").hide();
+        $("#option1").hide();
         $("#p2").hide();
         $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
         $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
         $("#result").empty();
-        $("#paper1").show();
-        $("#rock1").show();
-        $("#scissors1").show();
+        // $("#paper1").show();
+        // $("#rock1").show();
+        // $("#scissors1").show();
+        $("#playAgain").hide();
         database.ref("/player1").set({
             name: myName,
+            playerClick: ""
+        })
+        database.ref("/player2").update({
             playerClick: ""
         })
         // database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
@@ -360,15 +429,20 @@ function resetGame() {
         $("p2").html("You are player number 2");
         $("#player1").hide();
         $("#option1").hide();
+        $("#option2").hide();
         $("#p1").hide();
         $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
         $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
         $("#result").empty();
-        $("#paper2").show();
-        $("#rock2").show();
-        $("#scissors2").show();
+        // $("#paper2").show();
+        // $("#rock2").show();
+        // $("#scissors2").show();
+        $("#playAgain").hide();
         database.ref("/player2").set({
             name: myName,
+            playerClick: ""
+        })
+        database.ref("/player1").update({
             playerClick: ""
         })
         // database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
