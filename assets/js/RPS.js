@@ -68,6 +68,7 @@ connectionsRef.once("value", function (snap) {
         $("#player2").hide();
         $("#option1").hide();
         $("#option2").hide();
+        $("#p1").show();
         $("#p2").hide();
         $("#playAgain").hide();
 
@@ -79,6 +80,7 @@ connectionsRef.once("value", function (snap) {
         $("#option1").hide();
         $("#option2").hide();
         $("#p1").hide();
+        $("#p2").show();
         $("#playAgain").hide();
     }
     else {
@@ -89,6 +91,7 @@ connectionsRef.once("value", function (snap) {
 });
 // When first loaded or when the connections list changes...
 connectionsRef.on("value", function (snap) {
+    database.ref("/newMessage").remove();
 
     // Display the viewer count in the html.
     // The number of online users is the number of children in the connections list.
@@ -117,7 +120,7 @@ connectionsRef.on("value", function (snap) {
             $("#p2").hide();
             $("#player2Name").html("Player 2: ");
             $("#playAgain").hide();
-            $("#result").empty();
+            $("#result").html("Wating for the other player ......");
             // reset variable player1 & player2 to empty string.
             player1 = "";
             player2 = "";
@@ -236,7 +239,7 @@ $("#player1").on("click", function () {
     $("#rock1").show();
     $("#paper1").show();
     $("#scissors1").show();
-    // console.log("my name is " + myName);
+    $("#p1").hide();
 
 
 })
@@ -258,7 +261,7 @@ $("#player2").on("click", function () {
     $("#rock2").show();
     $("#paper2").show();
     $("#scissors2").show();
-    // console.log("my name is " + myName);
+    $("#p2").hide();
 
 
 })
@@ -269,7 +272,7 @@ $("#rock1").on("click", function () {
     player1Click = "Rock";
     $("#image1").attr("src", "assets/images/rock.png", alt = "rock");
     database.ref("/player1").set({
-        name: player1Name,
+        name: myName,
         playerClick: player1Click,
     })
     $("#paper1").hide();
@@ -283,7 +286,7 @@ $("#paper1").on("click", function () {
     player1Click = "Paper";
     $("#image1").attr("src", "assets/images/paper.png", alt = "paper");
     database.ref("/player1").set({
-        name: player1Name,
+        name: myName,
         playerClick: player1Click,
     })
     $("#rock1").hide();
@@ -296,7 +299,7 @@ $("#scissors1").on("click", function () {
     player1Click = "Scissors";
     $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
     database.ref("/player1").set({
-        name: player1Name,
+        name: myName,
         playerClick: player1Click,
     })
     $("#paper1").hide();
@@ -311,7 +314,7 @@ $("#rock2").on("click", function () {
     player2Click = "Rock";
     $("#image2").attr("src", "assets/images/rock.png", alt = "rock");
     database.ref("/player2").set({
-        name: player2Name,
+        name: myName,
         playerClick: player2Click,
     })
     $("#paper2").hide();
@@ -325,7 +328,7 @@ $("#paper2").on("click", function () {
     player2Click = "Paper";
     $("#image2").attr("src", "assets/images/paper.png", alt = "paper");
     database.ref("/player2").set({
-        name: player2Name,
+        name: myName,
         playerClick: player2Click,
     })
     $("#rock2").hide();
@@ -339,7 +342,7 @@ $("#scissors2").on("click", function () {
     player2Click = "Scissors";
     $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
     database.ref("/player2").set({
-        name: player2Name,
+        name: myName,
         playerClick: player2Click,
     })
     $("#paper2").hide();
@@ -408,6 +411,7 @@ $("#message").on("click", function () {
     database.ref("/newMessage").push({
         message: chatMessage,
     });
+    $("#leaveMessage").val("");
 
 
 })
@@ -430,17 +434,16 @@ database.ref("/newMessage").orderByChild("dateAdded").limitToLast(1).on("child_a
 
 
 
-
+//reset the game.
 function resetGame() {
     if (playerNumber === 1) {
         $("p2").html("You are player number 1");
         $("#player2").hide();
         $("#option2").hide();
         $("#option1").hide();
-        $("#p2").hide();
         $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
         $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
-        $("#result").html("Wating for the other player to finish ...... ");
+        $("#result").html("Wating for the other player ...... ");
         $("#playAgain").hide();
         database.ref("/player1").set({
             name: myName,
@@ -456,10 +459,9 @@ function resetGame() {
         $("#player1").hide();
         $("#option1").hide();
         $("#option2").hide();
-        $("#p1").hide();
         $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
         $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
-        $("#result").html("Wating for the other player to finish ...... ");
+        $("#result").html("Wating for the other player to ...... ");
         $("#playAgain").hide();
         database.ref("/player2").set({
             name: myName,
