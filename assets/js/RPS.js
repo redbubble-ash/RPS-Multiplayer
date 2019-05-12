@@ -235,8 +235,8 @@ database.ref("/player1").on("value", function (snap) {
     player1 = snap.val().playerClick;
     if (player1, player2) {
         gameResult(player1, player2);
-        $("#image1").attr("src", "assets/images/"+player1+".png", alt = player1);
-        $("#image2").attr("src", "assets/images/"+player2+".png", alt = player2);
+        $("#image1").attr("src", "assets/images/"+player1.toLowerCase()+".png", alt = player1);
+        $("#image2").attr("src", "assets/images/"+player2.toLowerCase()+".png", alt = player2);
     }
 })
 
@@ -247,8 +247,8 @@ database.ref("/player2").on("value", function (snap) {
     player2 = snap.val().playerClick;
     if (player1,player2){
     gameResult(player1, player2);
-    $("#image1").attr("src", "assets/images/"+player1+".png", alt = player1);
-    $("#image2").attr("src", "assets/images/"+player2+".png", alt = player2);
+    $("#image1").attr("src", "assets/images/"+player1.toLowerCase()+".png", alt = player1);
+    $("#image2").attr("src", "assets/images/"+player2.toLowerCase()+".png", alt = player2);
     }
 })
 
