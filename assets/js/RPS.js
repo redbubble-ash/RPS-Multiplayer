@@ -93,24 +93,35 @@ connectionsRef.on("value", function (snap) {
     // Display the viewer count in the html.
     // The number of online users is the number of children in the connections list.
     $("p1").html("There are " + snap.numChildren() + " players");
+    // in case of one of the players left game, if player2 stays, this will reassign player2 to player1
     if (snap.numChildren() === 1) {
         playerNumber = 1;
         $("p2").html("You are player number 1");
-        database.ref("/player2").remove();
-        $("#player2").hide();
-        $("#option2").hide();
-        $("#p2").hide();
-        $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
-        $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
-        $("#result").empty();
-        $("#paper1").show();
-        $("#rock1").show();
-        $("#scissors1").show();
-        database.ref("/player1").set({
-            name: myName,
-            playerClick: ""
-        })
-        database.ref("/player2").remove();
+        // this checks if this player has played more than once or if this player stays, if so, variable:"myName" should be true. 
+        if (myName) {
+            $("#player1Name").html("Player 1: " + myName);
+            $("#option1").show();
+            $("#rock1").show();
+            $("#paper1").show();
+            $("#scissors1").show();
+            database.ref("/player1").update({
+                name: myName,
+                playerClick: "",
+                checkPlayAgain: "",
+            })
+            database.ref("/player2").remove();
+            $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
+            $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
+            $("#player2").hide();
+            $("#option2").hide();
+            $("#p2").hide();
+            $("#player2Name").html("Player 2: ");
+            $("#playAgain").hide();
+            $("#result").empty();
+            // reset variable player1 & player2 to empty string.
+            player1 = "";
+            player2 = "";
+        }
 
     }
 });
@@ -151,11 +162,14 @@ $("#playAgain").on("click", function () {
         database.ref("/player1").update({
             checkPlayAgain: true,
         })
+        player1 = "";
+
     }
     else if (playerNumber === 2) {
         database.ref("/player2").update({
             checkPlayAgain: true,
         })
+        player2 = "";
 
     }
 
@@ -351,6 +365,9 @@ database.ref("/player1").on("value", function (snap) {
                 checkPlayAgain1: ""
             })
         }
+        else{
+            return;
+        }
     }
 })
 
@@ -371,6 +388,9 @@ database.ref("/player2").on("value", function (snap) {
             database.ref("/player2").update({
                 checkPlayAgain2: ""
             })
+        }
+        else{
+            return;
         }
     }
 })
@@ -420,10 +440,7 @@ function resetGame() {
         $("#p2").hide();
         $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
         $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
-        $("#result").empty();
-        // $("#paper1").show();
-        // $("#rock1").show();
-        // $("#scissors1").show();
+        $("#result").html("Wating for the other player to finish ...... ");
         $("#playAgain").hide();
         database.ref("/player1").set({
             name: myName,
@@ -432,7 +449,6 @@ function resetGame() {
         database.ref("/player2").update({
             playerClick: ""
         })
-        // database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
 
     }
     else if (playerNumber === 2) {
@@ -443,10 +459,7 @@ function resetGame() {
         $("#p1").hide();
         $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
         $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
-        $("#result").empty();
-        // $("#paper2").show();
-        // $("#rock2").show();
-        // $("#scissors2").show();
+        $("#result").html("Wating for the other player to finish ...... ");
         $("#playAgain").hide();
         database.ref("/player2").set({
             name: myName,
@@ -455,7 +468,6 @@ function resetGame() {
         database.ref("/player1").update({
             playerClick: ""
         })
-        // database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
 
     }
     else {
