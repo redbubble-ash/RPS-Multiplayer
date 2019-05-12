@@ -57,12 +57,11 @@ connectedRef.on("value", function (snap) {
 connectionsRef.once("value", function (snap) {
 
     playerNumber = snap.numChildren();
-    // console.log(playerNumber);
     if (playerNumber === 1) {
         $("p2").html("You are player number 1");
         $("#player2").hide();
         $("#option2").hide();
-        $("#player2Input").hide();
+        $("#p2").hide();
 
 
     }
@@ -70,7 +69,11 @@ connectionsRef.once("value", function (snap) {
         $("p2").html("You are player number 2");
         $("#player1").hide();
         $("#option1").hide();
-        $("#player1Input").hide();
+        $("#p1").hide();
+    }
+    else {
+        alert("Game has reached to player limit, sorry you can't join this time.")//when player number greater than two
+        $(".mainPage").hide();
     }
 
 });
@@ -80,10 +83,6 @@ connectionsRef.on("value", function (snap) {
     // Display the viewer count in the html.
     // The number of online users is the number of children in the connections list.
     $("p1").html("There are " + snap.numChildren() + " players");
-    if (snap.numChildren() > 2) {
-        alert("Game has reached to player limit, sorry you can't join this time.")
-        $(".mainPage").hide();
-    }
 });
 
 
