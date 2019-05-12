@@ -14,6 +14,7 @@ var result1 = "";
 var result2 = "";
 var player1Img = "";
 var player2Img = "";
+var myName = "";
 
 
 
@@ -64,6 +65,7 @@ connectionsRef.once("value", function (snap) {
         $("#player2").hide();
         $("#option2").hide();
         $("#p2").hide();
+        $("#playAgain").hide();
 
 
     }
@@ -72,6 +74,7 @@ connectionsRef.once("value", function (snap) {
         $("#player1").hide();
         $("#option1").hide();
         $("#p1").hide();
+        $("#playAgain").hide();
     }
     else {
         alert("Game has reached to player limit, sorry you can't join this time.")//when player number greater than two
@@ -85,6 +88,26 @@ connectionsRef.on("value", function (snap) {
     // Display the viewer count in the html.
     // The number of online users is the number of children in the connections list.
     $("p1").html("There are " + snap.numChildren() + " players");
+    if (snap.numChildren() === 1) {
+        playerNumber = 1;
+        $("p2").html("You are player number 1");
+        database.ref("/player2").remove();
+        $("#player2").hide();
+        $("#option2").hide();
+        $("#p2").hide();
+        $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
+        $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
+        $("#result").empty();
+        $("#paper1").show();
+        $("#rock1").show();
+        $("#scissors1").show();
+        database.ref("/player1").set({
+            name: myName,
+            playerClick: ""
+        })
+        database.ref("/player2").remove();
+
+    }
 });
 
 
@@ -110,9 +133,16 @@ function gameResult(player1Click, player2Click) {
     }
     console.log("player1: " + player1Result);
     console.log("player2: " + player2Result);
-    $("#result").html( "player1: " + player1Result +"<br>"+"player2: " + player2Result);
- 
+    $("#playAgain").show();
+    $("#result").html("player1: " + player1Result + "<br>" + "player2: " + player2Result);
+
 }
+
+$("#playAgain").on("click", function () {
+    resetGame();
+    console.log("check");
+
+})
 
 
 
@@ -128,6 +158,9 @@ $("#player1").on("click", function () {
     database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
     $("#player1Name").append(": " + player1Name);
     $("#player1Input").val("");//empty input box
+    myName = player1Name;
+    console.log("my name is " + myName);
+
 
 })
 
@@ -142,6 +175,8 @@ $("#player2").on("click", function () {
     database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
     $("#player2Name").append(": " + player2Name);
     $("#player2Input").val("");//empty input box
+    myName = player2Name;
+    console.log("my name is " + myName);
 
 
 })
@@ -231,30 +266,38 @@ $("#scissors2").on("click", function () {
 
 })
 
-// get playclick value for player1 and assign to varibale player1 (client side)
+// show resulet, get playclick value for player1 and assign to varibale player1 (client side)
 database.ref("/player1").on("value", function (snap) {
-
-    player1 = snap.val().playerClick;
-    if (player1, player2) {
-        gameResult(player1, player2);
-        player1Img = player1.toLowerCase();
-        player2Img = player2.toLowerCase();
-        $("#image1").attr("src", "assets/images/"+player1Img+".png", alt = player1);
-        $("#image2").attr("src", "assets/images/"+player2Img+".png", alt = player2);
+    if (snap.val() === null) {
+        return;
+    }// handle the case if the snap val() is null
+    else {
+        player1 = snap.val().playerClick;
+        if (player1 && player2) {
+            gameResult(player1, player2);
+            player1Img = player1.toLowerCase();
+            player2Img = player2.toLowerCase();
+            $("#image1").attr("src", "assets/images/" + player1Img + ".png", alt = player1);
+            $("#image2").attr("src", "assets/images/" + player2Img + ".png", alt = player2);
+        }
     }
 })
 
-// get playclick value for player2 and assign to varibale player2 (client side)
+//show result, get playclick value for player2 and assign to varibale player2 (client side)
 
 database.ref("/player2").on("value", function (snap) {
-
-    player2 = snap.val().playerClick;
-    if (player1,player2){
-    gameResult(player1, player2);
-    player1Img = player1.toLowerCase();
-    player2Img = player2.toLowerCase();
-    $("#image1").attr("src", "assets/images/"+player1Img+".png", alt = player1);
-    $("#image2").attr("src", "assets/images/"+player2Img+".png", alt = player2);
+    if (snap.val() === null) {
+        return;
+    }//handle the case if the snap val() is null
+    else {
+        player2 = snap.val().playerClick;
+        if (player1 && player2) {
+            gameResult(player1, player2);
+            player1Img = player1.toLowerCase();
+            player2Img = player2.toLowerCase();
+            $("#image1").attr("src", "assets/images/" + player1Img + ".png", alt = player1);
+            $("#image2").attr("src", "assets/images/" + player2Img + ".png", alt = player2);
+        }
     }
 })
 
@@ -294,9 +337,50 @@ database.ref("/newMessage").orderByChild("dateAdded").limitToLast(1).on("child_a
 
 
 
+function resetGame() {
+    if (playerNumber === 1) {
+        $("p2").html("You are player number 1");
+        $("#player2").hide();
+        $("#option2").hide();
+        $("#p2").hide();
+        $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
+        $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
+        $("#result").empty();
+        $("#paper1").show();
+        $("#rock1").show();
+        $("#scissors1").show();
+        database.ref("/player1").set({
+            name: myName,
+            playerClick: ""
+        })
+        // database.ref("/player1").onDisconnect().remove();//remove player1 on firebase when disconnected
 
+    }
+    else if (playerNumber === 2) {
+        $("p2").html("You are player number 2");
+        $("#player1").hide();
+        $("#option1").hide();
+        $("#p1").hide();
+        $("#image1").attr("src", "assets/images/scissors.png", alt = "scissors");
+        $("#image2").attr("src", "assets/images/scissors.png", alt = "scissors");
+        $("#result").empty();
+        $("#paper2").show();
+        $("#rock2").show();
+        $("#scissors2").show();
+        database.ref("/player2").set({
+            name: myName,
+            playerClick: ""
+        })
+        // database.ref("/player2").onDisconnect().remove();//remove player2 on firebase when disconnected
 
+    }
+    else {
+        alert("Game has reached to player limit, sorry you can't join this time.")//when player number greater than two
+        $(".mainPage").hide();
 
+    }
+
+}
 
 
 
